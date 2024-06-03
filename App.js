@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 export default function App() {
   // 입력창의 상태를 관리하는 변수를 React에서 사용하는 useState 훅을 활용하여 선언.
@@ -32,11 +40,26 @@ export default function App() {
         <Button title='할 일 추가하기' onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        {todoGoals.map((goal) => (
-          <View key={goal.key} style={styles.goalItem}>
-            <Text style={styles.goalText}>{goal.text}</Text>
-          </View>
-        ))}
+        {/* 
+          ScrollView는 전체 화면이 렌더링될 때, 안에 항목들을 전부 렌더링한다.
+          이로 인해 성능 상의 저하가 나타날 수 있다.
+          (보이지 않는 영역까지 렌더링을 진행하기 때문에 목록이 많다면 로딩이 길어짐.) FlatList는 보이는 영역만 일단 렌더링을 진행하고,
+          나머지 항목들은 스크롤이 움직이면 그 때 그 때 렌더링을 진행합니다.
+          내용이 보여질 필요가 있을 때마다 그 때 그 때 렌더링을 한다.
+        */}
+        <FlatList
+          data={todoGoals}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item.key;
+          }}
+        ></FlatList>
       </View>
     </View>
   );
