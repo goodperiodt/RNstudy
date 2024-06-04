@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Modal, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Button,
+  Image,
+  Modal,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 
 const GoalInput = ({ onAddGoal, onCancel, visible }) => {
   // 입력창의 상태를 관리하는 변수를 React에서 사용하는 useState 훅을 활용하여 선언.
@@ -21,6 +28,8 @@ const GoalInput = ({ onAddGoal, onCancel, visible }) => {
     // 속성을 사용한다.
     <Modal visible={visible} animationType='slide'>
       <View style={styles.inputContainer}>
+        <Image style={styles.image} source={require('../assets/goal.png')} />
+
         <TextInput
           style={styles.textInput}
           placeholder='할 일을 입력하세요!'
@@ -54,6 +63,12 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#311b6b',
   },
+  image: {
+    width: 150,
+    height: 150,
+    margin: 20,
+  },
+
   textInput: {
     borderWidth: 1,
     borderColor: '#e4d0ff',

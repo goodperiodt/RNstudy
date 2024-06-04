@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   // 모달의 렌더링 상태를 나타내는 변수
@@ -46,45 +47,48 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title='할 일 추가'
-        color='#5e0acc'
-        onPress={startAddGoalHandler}
-      />
-      {/* modalIsVisible의 상태 값이 true면 GoalInput 컴포넌트를 렌더링한다. */}
-      {/* {modalIsVisible && ( */}
-      <GoalInput
-        visible={modalIsVisible}
-        onAddGoal={addGoalHandler}
-        onCancel={endAddGoalHandler}
-      />
-      {/* )} */}
-      <View style={styles.goalsContainer}>
-        {/* 
-          ScrollView는 전체 화면이 렌더링될 때, 안에 항목들을 전부 렌더링한다.
-          이로 인해 성능 상의 저하가 나타날 수 있다.
-          (보이지 않는 영역까지 렌더링을 진행하기 때문에 목록이 많다면 로딩이 길어짐.) FlatList는 보이는 영역만 일단 렌더링을 진행하고,
-          나머지 항목들은 스크롤이 움직이면 그 때 그 때 렌더링을 진행합니다.
-          내용이 보여질 필요가 있을 때마다 그 때 그 때 렌더링을 한다.
-        */}
-        <FlatList
-          data={todoGoals}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                text={itemData.item.text}
-                id={itemData.item.id}
-                onDeleteItem={deleteGoalHandler}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => {
-            return item.key;
-          }}
-        ></FlatList>
+    <>
+      <StatusBar style='light' />
+      <View style={styles.appContainer}>
+        <Button
+          title='할 일 추가'
+          color='#5e0acc'
+          onPress={startAddGoalHandler}
+        />
+        {/* modalIsVisible의 상태 값이 true면 GoalInput 컴포넌트를 렌더링한다. */}
+        {/* {modalIsVisible && ( */}
+        <GoalInput
+          visible={modalIsVisible}
+          onAddGoal={addGoalHandler}
+          onCancel={endAddGoalHandler}
+        />
+        {/* )} */}
+        <View style={styles.goalsContainer}>
+          {/*
+            ScrollView는 전체 화면이 렌더링될 때, 안에 항목들을 전부 렌더링한다.
+            이로 인해 성능 상의 저하가 나타날 수 있다.
+            (보이지 않는 영역까지 렌더링을 진행하기 때문에 목록이 많다면 로딩이 길어짐.) FlatList는 보이는 영역만 일단 렌더링을 진행하고,
+            나머지 항목들은 스크롤이 움직이면 그 때 그 때 렌더링을 진행합니다.
+            내용이 보여질 필요가 있을 때마다 그 때 그 때 렌더링을 한다.
+          */}
+          <FlatList
+            data={todoGoals}
+            renderItem={(itemData) => {
+              return (
+                <GoalItem
+                  text={itemData.item.text}
+                  id={itemData.item.id}
+                  onDeleteItem={deleteGoalHandler}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => {
+              return item.key;
+            }}
+          ></FlatList>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
